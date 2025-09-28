@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Appointment Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-user-injured me-2"></i>Patient Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> {{ appointment.patient.full_name }}</p>
+                    <p><strong>Age:</strong> {{ appointment.patient.age }}</p>
+                    <p><strong>Gender:</strong> {{ appointment.patient.gender }}</p>
+                    <p><strong>Blood Group:</strong> {{ appointment.patient.blood_group }}</p>
+                    <hr>
+                    <p><strong>Contact:</strong> {{ appointment.patient.contact_number }}</p>
+                    <p><strong>Email:</strong> {{ appointment.patient.email }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-notes-medical me-2"></i>Appointment Details & Notes</h5>
+                </div>
+                <div class="card-body">
+                    <h5>Appointment #{{ appointment.id }}</h5>
+                    <p><strong>Date & Time:</strong> {{ appointment.appointment_date.strftime('%Y-%m-%d %H:%M') }}</p>
+                    <p><strong>Reason for Visit:</strong><br>{{ appointment.reason }}</p>
+                    <hr>
+                    
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="notes" class="form-label"><strong>Doctor's Notes</strong></label>
+                            <textarea class="form-control" id="notes" name="notes" rows="6">{{ appointment.notes or '' }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label"><strong>Update Status</strong></label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="Scheduled" {% if appointment.status == 'Scheduled' %}selected{% endif %}>Scheduled</option>
+                                <option value="Completed" {% if appointment.status == 'Completed' %}selected{% endif %}>Completed</option>
+                                <option value="Cancelled" {% if appointment.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                            </select>
+                        </div>
+                        <a href="{{ url_for('doctor.dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                        <button type="submit" class="btn btn-primary float-end">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

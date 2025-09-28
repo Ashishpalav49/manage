@@ -1,0 +1,101 @@
+/* Custom styling for Hospital Management System */
+
+/* Add some padding to the body for better spacing */
+body {
+    padding-bottom: 20px;
+}
+
+/* Card styling */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    font-weight: 500;
+}
+
+/* Dashboard cards */
+.card-body .fa-3x {
+    opacity: 0.7;
+}
+
+/* Table styling */
+.table th {
+    font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Button spacing in forms */
+form .btn {
+    margin-right: 0.5rem;
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Footer styling */
+footer {
+    border-top: 1px solid #e9ecef;
+    color: #6c757d;
+}
+
+/* Status badges styling */
+.badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+}
+
+/* Form label styling */
+.form-label {
+    font-weight: 500;
+}
+
+/* Patient view page */
+.table-borderless th {
+    color: #6c757d;
+}
+
+/* Jumbotron styling for homepage */
+.jumbotron {
+    background-color: #f8f9fa;
+}
+
+/* Dashboard icon boxes */
+.card.text-white .opacity-50 {
+    opacity: 0.5;
+}
+
+/* Responsive table adjustments */
+@media (max-width: 767.98px) {
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Hover effect for action buttons */
+.btn-info:hover, .btn-primary:hover, .btn-danger:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s;
+}
+
+/* Custom colors for appointment status */
+.bg-scheduled {
+    background-color: #007bff;
+}
+.bg-completed {
+    background-color: #28a745;
+}
+.bg-cancelled {
+    background-color: #dc3545;
+}

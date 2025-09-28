@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Create Profile - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0"><i class="fas fa-user-plus"></i> Create Patient Profile</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('patient.create_profile') }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="first_name">{{ form.first_name.label }}</label>
+                        {{ form.first_name(class="form-control") }}
+                        {% for error in form.first_name.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="last_name">{{ form.last_name.label }}</label>
+                        {{ form.last_name(class="form-control") }}
+                        {% for error in form.last_name.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="date_of_birth">{{ form.date_of_birth.label }}</label>
+                        {{ form.date_of_birth(class="form-control", type="date") }}
+                        {% for error in form.date_of_birth.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="gender">{{ form.gender.label }}</label>
+                        {{ form.gender(class="form-select") }}
+                        {% for error in form.gender.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="blood_group">{{ form.blood_group.label }}</label>
+                        {{ form.blood_group(class="form-control") }}
+                        {% for error in form.blood_group.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="contact_number">{{ form.contact_number.label }}</label>
+                        {{ form.contact_number(class="form-control") }}
+                        {% for error in form.contact_number.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="email">{{ form.email.label }}</label>
+                {{ form.email(class="form-control") }}
+                {% for error in form.email.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="address">{{ form.address.label }}</label>
+                {{ form.address(class="form-control", rows=3) }}
+                {% for error in form.address.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group mt-4">
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('patient.dashboard') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

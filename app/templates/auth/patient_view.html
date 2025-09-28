@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Details - {{ patient.full_name }} - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-user-injured"></i> Patient Details</h2>
+    <div>
+        <a href="{{ url_for('admin.edit_patient', id=patient.id) }}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit Patient
+        </a>
+        <a href="{{ url_for('admin.add_appointment') }}" class="btn btn-success">
+            <i class="fas fa-calendar-plus"></i> New Appointment
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Basic Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th style="width: 40%">Patient ID:</th>
+                        <td>{{ patient.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Full Name:</th>
+                        <td>{{ patient.full_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date of Birth:</th>
+                        <td>{{ patient.date_of_birth.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Gender:</th>
+                        <td>{{ patient.gender }}</td>
+                    </tr>
+                    <tr>
+                        <th>Blood Group:</th>
+                        <td>{{ patient.blood_group }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-address-card"></i> Contact Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th style="width: 40%">Contact Number:</th>
+                        <td>{{ patient.contact_number }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ patient.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address:</th>
+                        <td>{{ patient.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Registration Date:</th>
+                        <td>{{ patient.registration_date.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-calendar-check"></i> Appointment History</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Date & Time</th>
+                        <th>Doctor</th>
+                        <th>Status</th>
+                        <th>Reason</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.id }}</td>
+                        <td>{{ appointment.appointment_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ appointment.doctor.full_name }}</td>
+                        <td>
+                            <span class="badge {% if appointment.status == 'Scheduled' %}bg-primary
+                                  {% elif appointment.status == 'Completed' %}bg-success
+                                  {% elif appointment.status == 'Cancelled' %}bg-danger
+                                  {% else %}bg-secondary{% endif %}">
+                                {{ appointment.status }}
+                            </span>
+                        </td>
+                        <td>{{ appointment.reason }}</td>
+                        <td>{{ appointment.notes }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">No appointment history available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

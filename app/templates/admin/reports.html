@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1><i class="fas fa-chart-line me-2"></i>System Reports</h1>
+            <p class="lead">Analyze system-wide data and generate reports.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Monthly Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyAppointmentsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Appointment Status Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="appointmentStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        // --- Bar Chart: Monthly Appointments ---
+        const monthlyCtx = document.getElementById('monthlyAppointmentsChart');
+        new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ monthly_labels|safe }},
+                datasets: [{
+                    label: '# of Appointments',
+                    data: {{ monthly_data|safe }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // --- Doughnut Chart: Appointment Status ---
+        const statusCtx = document.getElementById('appointmentStatusChart');
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ status_labels|safe }},
+                datasets: [{
+                    label: 'Appointment Status',
+                    data: {{ status_data|safe }},
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.6)',  // Scheduled
+                        'rgba(75, 192, 192, 0.6)',  // Completed
+                        'rgba(255, 99, 132, 0.6)'   // Cancelled
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if appointment %}Edit Appointment{% else %}Add Appointment{% endif %} - Hospital Management System
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-calendar-plus me-2"></i> 
+                        {% if appointment %}Edit Appointment #{{ appointment.id }}{% else %}Schedule New Appointment{% endif %}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.patient_id.label(class="form-label") }}
+                                {{ form.patient_id(class="form-select") }}
+                                {% for error in form.patient_id.errors %}<span class="text-danger small">{{ error }}</span>{% endfor %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.doctor_id.label(class="form-label") }}
+                                {{ form.doctor_id(class="form-select") }}
+                                {% for error in form.doctor_id.errors %}<span class="text-danger small">{{ error }}</span>{% endfor %}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form.appointment_date.label(class="form-label") }}
+                            {{ form.appointment_date(class="form-control") }}
+                             {% for error in form.appointment_date.errors %}<span class="text-danger small">{{ error }}</span>{% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.reason.label(class="form-label") }}
+                            {{ form.reason(class="form-control", rows="3") }}
+                            {% for error in form.reason.errors %}<span class="text-danger small">{{ error }}</span>{% endfor %}
+                        </div>
+
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('admin.manage_appointments') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> {% if appointment %}Update{% else %}Save{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

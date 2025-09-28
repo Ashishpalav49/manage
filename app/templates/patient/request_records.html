@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Request Medical Records</h1>
+    <p>Use this form to request a copy of your medical records.</p>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reason for Request</label>
+                    <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="format" class="form-label">Preferred Format</label>
+                    <select class="form-select" id="format" name="format">
+                        <option value="pdf">PDF</option>
+                        <option value="paper">Paper Copy</option>
+                        <option value="email">Email</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

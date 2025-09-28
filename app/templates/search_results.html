@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0"><i class="fas fa-search"></i> Search Results for "{{ search_term }}"</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                        <th>Contact</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.id }}</td>
+                        <td>{{ patient.full_name }}</td>
+                        <td>{{ patient.date_of_birth.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ patient.gender }}</td>
+                        <td>{{ patient.contact_number }}</td>
+                        <td>
+                            <a href="{{ url_for('patient.view_patient', id=patient.id) }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-3">
+            <a href="{{ url_for('patient.search_patient') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Search
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

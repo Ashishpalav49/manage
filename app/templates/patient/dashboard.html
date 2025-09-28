@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Dashboard - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1>Patient Dashboard</h1>
+        <p class="lead">Welcome, {{ current_user.username }}! Manage your appointments and health records here.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Your Upcoming Appointments</h5>
+                <a id="book-new-appointment" href="{{ url_for('patient.book_appointment') }}" class="btn btn-sm btn-primary">Book New Appointment</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Date & Time</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appointment in upcoming_appointments %}
+                            <tr>
+                                <td>{{ appointment.doctor.full_name }}</td>
+                                <td>{{ appointment.appointment_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td>{{ appointment.reason }}</td>
+                                <td>
+                                    {% if appointment.status == 'Scheduled' %}
+                                        <span class="badge bg-warning">Scheduled</span>
+                                    {% elif appointment.status == 'Completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% elif appointment.status == 'Cancelled' %}
+                                        <span class="badge bg-danger">Cancelled</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('patient.view_appointment', id=appointment.id) }}" class="btn btn-sm btn-primary">View</a>
+                                    <a href="{{ url_for('patient.cancel_appointment', id=appointment.id) }}" class="btn btn-sm btn-danger" data-confirm="true">Cancel</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% if not upcoming_appointments %}
+                            <tr>
+                                <td colspan="5" class="text-center">No upcoming appointments found</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a id="book-appointment" href="{{ url_for('patient.book_appointment') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-calendar-plus me-2"></i> Book Appointment
+                    </a>
+                    <a id="view-medical-history" href="{{ url_for('patient.medical_history') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-medical me-2"></i> View Medical History
+                    </a>
+                    <a id="update-profile" href="{{ url_for('patient.edit_profile') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-user-edit me-2"></i> Update Profile
+                    </a>
+                    <a id="request-medical-records" href="{{ url_for('patient.request_records') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-file-download me-2"></i> Request Medical Records
+                    </a>
+                    <a id="contact-support" href="{{ url_for('patient.contact_support') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-headset me-2"></i> Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Available Doctors</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for doctor in available_doctors %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Dr. {{ doctor.full_name }}</h5>
+                            <small>{{ doctor.specialization }}</small>
+                        </div>
+                        <p class="mb-1">Contact: {{ doctor.contact_number }}</p>
+                        <p class="mb-1">Email: {{ doctor.email }}</p>
+                        <a href="{{ url_for('patient.book_with_doctor', doctor_id=doctor.id) }}" class="btn btn-sm btn-primary mt-2">Book Appointment</a>
+                    </div>
+                    {% endfor %}
+                    {% if not available_doctors %}
+                    <div class="list-group-item text-center">
+                        No doctors available at the moment
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Your Health Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    This is a placeholder for patient health summary data. In a full implementation, this would display vital statistics, recent diagnoses, medications, etc.
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Last Check-up
+                        <span class="badge bg-primary rounded-pill">2 months ago</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Prescriptions
+                        <span class="badge bg-primary rounded-pill">3 active</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Lab Results
+                        <span class="badge bg-success rounded-pill">All normal</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Upcoming Tests
+                        <span class="badge bg-warning rounded-pill">1 pending</span>
+                    </li>
+                </ul>
+                <div class="d-grid gap-2 mt-3">
+                    <a href="{{ url_for('patient.medical_history') }}" class="btn btn-primary">View Full Medical Record</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
